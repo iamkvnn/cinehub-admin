@@ -34,6 +34,6 @@ const dashboardController = new DashboardController();
  *             schema:
  *               $ref: '#/components/schemas/Error'
  */
-router.get('/stats', auth([UserRole.ADMIN]), dashboardController.getStats);
+router.get('/stats', dashboardController.getStats);
 
 export default router;
