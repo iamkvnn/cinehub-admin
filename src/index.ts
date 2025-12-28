@@ -3,9 +3,11 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import swaggerUi from 'swagger-ui-express';
 import { createServer } from 'http';
 import { env } from './config/env';
 import { AppDataSource } from './config/data-source';
+import { swaggerSpec } from './config/swagger';
 import routes from './routes';
 import { errorConverter, errorHandler } from './middlewares/error.middleware';
 import { ApiError } from './utils/ApiError';
@@ -19,6 +21,9 @@ app.use(helmet());
 app.use(cors({ origin: env.cors.origin }));
 app.use(express.json());
 app.use(morgan('dev'));
+
+// Swagger Documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Routes
 app.use('/api/v1', routes);
