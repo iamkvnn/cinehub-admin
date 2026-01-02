@@ -107,4 +107,87 @@ router.post('/send/:clientId', notificationController.sendToClient);
  */
 router.get('/clients', notificationController.getClients);
 
+/**
+ * @swagger
+ * /api/v1/notifications/history:
+ *   get:
+ *     summary: Get notification history
+ *     tags: [Notifications]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: Items per page
+ *       - in: query
+ *         name: type
+ *         schema:
+ *           type: string
+ *           enum: [info, success, warning, error]
+ *         description: Filter by notification type
+ *       - in: query
+ *         name: targetUserId
+ *         schema:
+ *           type: string
+ *         description: Filter by target user ID
+ *     responses:
+ *       200:
+ *         description: List of notifications with pagination
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                       title:
+ *                         type: string
+ *                       message:
+ *                         type: string
+ *                       type:
+ *                         type: string
+ *                       createdAt:
+ *                         type: string
+ *                         format: date-time
+ *                       sender:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: string
+ *                           name:
+ *                             type: string
+ *                       targetUser:
+ *                         type: object
+ *                         nullable: true
+ *                         properties:
+ *                           id:
+ *                             type: string
+ *                           name:
+ *                             type: string
+ *                 meta:
+ *                   type: object
+ *                   properties:
+ *                     total:
+ *                       type: integer
+ *                     page:
+ *                       type: integer
+ *                     limit:
+ *                       type: integer
+ */
+router.get('/history', notificationController.getHistory);
+
 export default router;
