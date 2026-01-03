@@ -141,7 +141,10 @@ router.get('/users-by-week', dashboardController.getUsersByWeek);
  *                         type: string
  *                         example: "#8b5cf6"
  */
-router.get('/subscription-distribution', dashboardController.getSubscriptionDistribution);
+router.get(
+  '/subscription-distribution',
+  dashboardController.getSubscriptionDistribution
+);
 
 /**
  * @swagger

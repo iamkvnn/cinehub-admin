@@ -20,10 +20,12 @@ export class DashboardController {
     res.send({ success: true, data });
   });
 
-  getSubscriptionDistribution = catchAsync(async (req: Request, res: Response) => {
-    const data = await this.dashboardService.getSubscriptionDistribution();
-    res.send({ success: true, data });
-  });
+  getSubscriptionDistribution = catchAsync(
+    async (req: Request, res: Response) => {
+      const data = await this.dashboardService.getSubscriptionDistribution();
+      res.send({ success: true, data });
+    }
+  );
 
   getActivityByDay = catchAsync(async (req: Request, res: Response) => {
     const data = await this.dashboardService.getActivityByDay();

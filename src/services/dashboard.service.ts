@@ -6,14 +6,22 @@ import { Plan } from '../entities/Plan';
 import { Between, MoreThanOrEqual } from 'typeorm';
 
 // Helper to get Vietnamese day name
-const VIETNAMESE_DAYS = ['CN', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'];
+const VIETNAMESE_DAYS = [
+  'CN',
+  'Thứ 2',
+  'Thứ 3',
+  'Thứ 4',
+  'Thứ 5',
+  'Thứ 6',
+  'Thứ 7',
+];
 
 // Plan colors for pie chart
 const PLAN_COLORS: Record<string, string> = {
-  'FREE': '#94a3b8',      // slate-400
-  'BASIC': '#3b82f6',     // blue-500
-  'PREMIUM': '#8b5cf6',   // violet-500
-  'ENTERPRISE': '#f59e0b', // amber-500
+  FREE: '#94a3b8', // slate-400
+  BASIC: '#3b82f6', // blue-500
+  PREMIUM: '#8b5cf6', // violet-500
+  ENTERPRISE: '#f59e0b', // amber-500
 };
 
 export class DashboardService {
@@ -28,7 +36,7 @@ export class DashboardService {
   async getStats() {
     const totalUsers = await this.userRepository.count();
     const totalFilms = await this.filmRepository.count();
-    
+
     // Count active subscriptions
     const totalSubscriptions = await this.subscriptionRepository.count({
       where: { status: SubscriptionStatus.ACTIVE },
@@ -46,7 +54,10 @@ export class DashboardService {
       where: { status: SubscriptionStatus.ACTIVE },
       relations: ['plan'],
     });
-    const revenue = activeSubscriptions.reduce((sum, sub) => sum + (sub.plan?.price || 0), 0);
+    const revenue = activeSubscriptions.reduce(
+      (sum, sub) => sum + (sub.plan?.price || 0),
+      0
+    );
 
     // Count new users today
     const today = new Date();
@@ -75,7 +86,15 @@ export class DashboardService {
     for (let i = 11; i >= 0; i--) {
       const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
       const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-      const endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59, 999);
+      const endOfMonth = new Date(
+        date.getFullYear(),
+        date.getMonth() + 1,
+        0,
+        23,
+        59,
+        59,
+        999
+      );
 
       // Get subscriptions created in this month
       const subscriptions = await this.subscriptionRepository.find({
@@ -86,7 +105,10 @@ export class DashboardService {
         relations: ['plan'],
       });
 
-      const revenue = subscriptions.reduce((sum, sub) => sum + (sub.plan?.price || 0), 0);
+      const revenue = subscriptions.reduce(
+        (sum, sub) => sum + (sub.plan?.price || 0),
+        0
+      );
 
       // Count new users in this month
       const newUsers = await this.userRepository.count({
@@ -112,7 +134,7 @@ export class DashboardService {
 
     for (let i = 5; i >= 0; i--) {
       const weekStart = new Date(now);
-      weekStart.setDate(now.getDate() - (i * 7) - now.getDay());
+      weekStart.setDate(now.getDate() - i * 7 - now.getDay());
       weekStart.setHours(0, 0, 0, 0);
 
       const weekEnd = new Date(weekStart);
@@ -128,7 +150,9 @@ export class DashboardService {
       const activeUsersResult = await this.subscriptionRepository
         .createQueryBuilder('subscription')
         .select('COUNT(DISTINCT subscription.userId)', 'count')
-        .where('subscription.status = :status', { status: SubscriptionStatus.ACTIVE })
+        .where('subscription.status = :status', {
+          status: SubscriptionStatus.ACTIVE,
+        })
         .andWhere('subscription.startDate <= :weekEnd', { weekEnd })
         .getRawOne();
 
@@ -182,8 +206,24 @@ export class DashboardService {
     for (let i = 6; i >= 0; i--) {
       const date = new Date(now);
       date.setDate(now.getDate() - i);
-      const startOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0);
-      const endOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999);
+      const startOfDay = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        0,
+        0,
+        0,
+        0
+      );
+      const endOfDay = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        23,
+        59,
+        59,
+        999
+      );
 
       // Count subscriptions created this day
       const subscriptionCount = await this.subscriptionRepository.count({
