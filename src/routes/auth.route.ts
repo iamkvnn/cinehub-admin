@@ -1,9 +1,9 @@
-import { Router } from 'express';
+import { Router, IRouter } from 'express';
 import { AuthController } from '../controllers/auth.controller';
 import { validate } from '../middlewares/validate.middleware';
 import { LoginDto } from '../dto/auth.dto';
 
-const router = Router();
+const router: IRouter = Router();
 const authController = new AuthController();
 
 /**
