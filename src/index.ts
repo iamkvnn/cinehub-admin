@@ -11,7 +11,6 @@ import { swaggerSpec } from './config/swagger';
 import routes from './routes';
 import { errorConverter, errorHandler } from './middlewares/error.middleware';
 import { ApiError } from './utils/ApiError';
-import { SocketService } from './websocket/socket';
 
 const app = express();
 const httpServer = createServer(app);
@@ -41,9 +40,6 @@ app.use(errorHandler);
 AppDataSource.initialize()
   .then(() => {
     console.log('Data Source has been initialized!');
-
-    // Initialize Socket.IO
-    SocketService.getInstance().init(httpServer);
 
     httpServer.listen(env.port, () => {
       console.log(`Server is running on port ${env.port}`);

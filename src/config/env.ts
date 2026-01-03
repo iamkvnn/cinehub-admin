@@ -15,9 +15,6 @@ export const env = {
   },
   jwt: {
     accessSecret: process.env.JWT_ACCESS_SECRET || 'access-secret',
-    refreshSecret: process.env.JWT_REFRESH_SECRET || 'refresh-secret',
-    accessExpiration: process.env.JWT_ACCESS_EXPIRATION || '15m',
-    refreshExpiration: process.env.JWT_REFRESH_EXPIRATION || '7d',
   },
   cors: {
     origin: process.env.CORS_ORIGIN || '*',
