@@ -9,8 +9,7 @@ export const AppDataSource = new DataSource({
   username: env.db.username,
   password: env.db.password,
   database: env.db.database,
-  synchronize: false, // Should be false in production
-  logging: env.nodeEnv === 'development',
+  synchronize: false, // Disabled after schema sync
   entities: [path.join(__dirname, '../entities/**/*.{ts,js}')],
   migrations: [path.join(__dirname, '../migrations/**/*.{ts,js}')],
   subscribers: [],

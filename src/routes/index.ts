@@ -1,10 +1,8 @@
-import { Router } from 'express';
-import authRoute from './auth.route';
+import { Router, IRouter } from 'express';
 import dashboardRoute from './dashboard.route';
 
-const router = Router();
+const router: IRouter = Router();
 
-router.use('/auth', authRoute);
 router.use('/dashboard', dashboardRoute);
 
 export default router;
